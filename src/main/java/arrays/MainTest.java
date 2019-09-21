@@ -1,8 +1,39 @@
+package arrays;
+
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Properties;
 
 public class MainTest {
 
     public static void main(String[] args) throws ClassNotFoundException, SQLException {
+        wypiszTablice();
+//        List<Test> list = getAsList();
+//        list.forEach(System.out::println);
+    }
+
+    private static List<Test> getAsList() throws SQLException, ClassNotFoundException {
+//        Class.forName("com.mysql.cj.jdbc.Driver");
+        String dbConnection = "jdbc:mysql://localhost:3306/mysql?useTimezone=true&serverTimezone=UTC";
+        Properties properties = new Properties();
+        properties.setProperty("user", "root");
+        properties.setProperty("password", "example");
+        Connection connection = DriverManager.getConnection(dbConnection, properties);
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery("select * from test");
+        List<Test> result = new ArrayList<>();
+        while (resultSet.next()) {
+            result.add(new Test(resultSet.getInt("id"),
+                    resultSet.getString("name")));
+        }
+        resultSet.close();
+        statement.close();
+        connection.close();
+        return result;
+    }
+
+    private static void wypiszTablice() throws ClassNotFoundException, SQLException {
         Object[][] res = createArray();
         for(int i =0; i< res.length; i++) {
             for(int j=0; j<res[i].length;j++) {
