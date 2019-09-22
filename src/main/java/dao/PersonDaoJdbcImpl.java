@@ -24,6 +24,7 @@ public class PersonDaoJdbcImpl implements PersonDao {
 
     private void createConnection() {
         try {
+            System.out.println("tworzę połączenie do bazy danych");
             connection = DriverManager.getConnection(DB_CONNECT, "root", "example");
             statement = connection.createStatement();
         } catch (SQLException e) {
@@ -32,18 +33,23 @@ public class PersonDaoJdbcImpl implements PersonDao {
         }
     }
 
-        private void closeConnection() {
-        try {
-            statement.close();
-            connection.close();
+    private void closeConnection() {
+    try {
+        System.out.println("zamykam połączenie do bazy danych");
+        statement.close();
+        connection.close();
         } catch (SQLException e) {
             System.err.println("Błąd podczas odłączania bazy danych");
         }
     }
 
     @Override
-    public List<Person> getAllPersons() {
-        return null;
+    public List<Person> getAllPersons() throws SQLException {
+        String query = "select * from person";
+        createConnection();
+        List<Person> persons = getPersonsFromResultSet(statement.executeQuery(query));
+        closeConnection();
+        return persons;
     }
 
     @Override
@@ -89,13 +95,29 @@ public class PersonDaoJdbcImpl implements PersonDao {
     }
 
     @Override
-    public Person getPersonById(int personId) {
-        return null;
+    public Person getPersonById(int personId) throws SQLException {
+        String query = "select * from person where id = " + personId;
+        createConnection();
+        List<Person> personList = getPersonsFromResultSet(statement.executeQuery(query));
+        closeConnection();
+        if(personList.isEmpty()){
+            throw new NoPersonIdException("brak id w bazie danych");
+        }
+        return personList.get(0);
     }
 
     @Override
-    public List<Person> getPersonsBetweenAge(int minAge, int maxAge) {
-        return null;
+    public List<Person> getPersonsBetweenAge(int minAge, int maxAge) throws SQLException {
+        if(minAge > maxAge) {
+            minAge += maxAge;
+            maxAge = minAge - maxAge;
+            minAge -= maxAge;
+        }
+        String query = String.format("select * from person where age between %d and %d", minAge, maxAge);
+        createConnection();
+        List<Person> personList = getPersonsFromResultSet(statement.executeQuery(query));
+        closeConnection();
+        return personList;
     }
 
     @Override

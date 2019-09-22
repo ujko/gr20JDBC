@@ -17,32 +17,36 @@ public class Person {
         return personId;
     }
 
-    public void setPersonId(int personId) {
+    public Person setPersonId(int personId) {
         this.personId = personId;
+        return this;
     }
 
     public String getFirstName() {
         return firstName;
     }
 
-    public void setFirstName(String firstName) {
+    public Person setFirstName(String firstName) {
         this.firstName = firstName;
+        return this;
     }
 
     public String getLastName() {
         return lastName;
     }
 
-    public void setLastName(String lastName) {
+    public Person setLastName(String lastName) {
         this.lastName = lastName;
+        return this;
     }
 
     public int getAge() {
         return age;
     }
 
-    public void setAge(int age) {
+    public Person setAge(int age) {
         this.age = age;
+        return this;
     }
 
     @Override

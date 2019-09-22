@@ -11,7 +11,10 @@ public class MainTest {
 //        wypiszTablice();
 //        List<Test> list = getAsList();
 //        list.forEach(System.out::println);
-
+        Test t = new Test()
+                .setId(1)
+                .setName("fsdsdf");
+        System.out.println(t);
     }
 
     private static List<Test> getAsList() throws SQLException, ClassNotFoundException {
@@ -24,10 +27,10 @@ public class MainTest {
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery("select * from test");
         List<Test> result = new ArrayList<>();
-        while (resultSet.next()) {
-            result.add(new Test(resultSet.getInt("id"),
-                    resultSet.getString("name")));
-        }
+//        while (resultSet.next()) {
+//            result.add(new Test(resultSet.getInt("id"),
+//                    resultSet.getString("name")));
+//        }
         resultSet.close();
         statement.close();
         connection.close();
