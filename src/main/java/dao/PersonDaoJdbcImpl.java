@@ -112,8 +112,7 @@ public class PersonDaoJdbcImpl implements PersonDao {
         String query = "select max(id) from person";
         createConnection();
         int result = 0;
-        try {
-            ResultSet resultSet = statement.executeQuery(query);
+        try (ResultSet resultSet = statement.executeQuery(query)){
             if(resultSet.next()) {
                 result = resultSet.getInt(1);
             }
@@ -125,12 +124,42 @@ public class PersonDaoJdbcImpl implements PersonDao {
     }
 
     @Override
-    public void deletePerson(int personId) {
-
+    public void deletePerson(int personId) throws SQLException {
+        createConnection();
+        String query = "delete from person where id = " + personId;
+        int changedRows = statement.executeUpdate(query);
+        System.out.println("Skasowano " + changedRows + " record(ów)");
+        closeConnection();
     }
 
     @Override
-    public void updatePerson(int personId, Person person) {
-
+    public void updatePerson(int personId, Person person) throws SQLException {
+        if(person == null) {
+            return;
+        }
+        StringBuilder query = new StringBuilder();
+        query.append("update person set ");
+        String firstName = person.getFirstName();
+        String temp = "";
+        if(firstName != null && !firstName.isEmpty()) {
+            temp += " first_name = '" + firstName +"',";
+        }
+        String lastName = person.getLastName();
+        if(lastName != null && !lastName.isEmpty()) {
+            temp +=" last_name = '" + lastName +"',";
+        }
+        int age = person.getAge();
+        if(age > 0) {
+            temp += " age = " + age;
+        }
+        if(temp.endsWith(",")) {
+            temp = temp.substring(0,temp.length()-1);
+        }
+        query.append(temp);
+        query.append(" where id = " + personId);
+        createConnection();
+        System.out.println(query.toString());
+        statement.executeUpdate(query.toString());
+        closeConnection();
     }
 }

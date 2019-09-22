@@ -8,13 +8,14 @@ import java.util.Properties;
 public class MainTest {
 
     public static void main(String[] args) throws ClassNotFoundException, SQLException {
-        wypiszTablice();
+//        wypiszTablice();
 //        List<Test> list = getAsList();
 //        list.forEach(System.out::println);
+
     }
 
     private static List<Test> getAsList() throws SQLException, ClassNotFoundException {
-//        Class.forName("com.mysql.cj.jdbc.Driver");
+        Class.forName("com.mysql.cj.jdbc.Driver");
         String dbConnection = "jdbc:mysql://localhost:3306/mysql?useTimezone=true&serverTimezone=UTC";
         Properties properties = new Properties();
         properties.setProperty("user", "root");

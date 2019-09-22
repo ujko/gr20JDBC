@@ -12,6 +12,6 @@ public interface PersonDao {
     Person getPersonById(int personId);
     List<Person> getPersonsBetweenAge(int minAge, int maxAge);
     void addPerson(Person person) throws SQLException;
-    void deletePerson(int personId);
-    void updatePerson(int personId, Person person);
+    void deletePerson(int personId) throws SQLException;
+    void updatePerson(int personId, Person person) throws SQLException;
 }
