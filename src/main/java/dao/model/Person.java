@@ -1,16 +1,28 @@
 package dao.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Person {
     private int personId;
     private String firstName;
     private String lastName;
     private int age;
+    private List<Address> addresses = new ArrayList<>();
 
     public Person(){}
     public Person(String firstName, String lastName, int age) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.age = age;
+    }
+
+    public void addAddress(Address address) {
+        addresses.add(address);
+    }
+
+    public List<Address> getAddresses() {
+        return addresses;
     }
 
     public int getPersonId() {
@@ -56,6 +68,7 @@ public class Person {
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", age=" + age +
+                ", addresses=" + addresses +
                 '}';
     }
 }

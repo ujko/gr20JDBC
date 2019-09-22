@@ -4,12 +4,12 @@ import java.sql.SQLException;
 
 public class Main {
     public static void main(String[] args) throws SQLException {
-        long start = System.currentTimeMillis();
-        PersonDao dao = new PersonDaoMemImpl();
-        System.out.println(dao.getPersonsBetweenAge(12,35));
-        System.out.println(dao.getPersonsByLastName("Nowak"));
-        System.out.println(dao.getPersonsByLastName("Anna"));
-        System.out.println(dao.getPersonsByLastName("Jan"));
+//        long start = System.currentTimeMillis();
+//        PersonDao dao = new PersonDaoMemImpl();
+//        System.out.println(dao.getPersonsBetweenAge(12,35));
+//        System.out.println(dao.getPersonsByLastName("Nowak"));
+//        System.out.println(dao.getPersonsByLastName("Anna"));
+//        System.out.println(dao.getPersonsByLastName("Jan"));
 
 //        try {
 //            System.out.println(dao.getPersonById(6));
@@ -28,10 +28,12 @@ public class Main {
 //        dao.addPerson(new Person("Andrzej", "Nowak", 23));
 //        List<Person> personList = dao.getPersonsByLastName("dymna");
 //        personList.forEach(System.out::println);
-        long stop = System.currentTimeMillis();
-        System.out.println("Program wykonał się w " + (stop - start) + " ms");
+//        long stop = System.currentTimeMillis();
+//        System.out.println("Program wykonał się w " + (stop - start) + " ms");
 //        dao.deletePerson(3);
 
+        PersonDao dao = new PersonDaoJdbcImpl();
+        System.out.println(dao.getAllPersons().get(0));
 
     }
 }

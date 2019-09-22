@@ -1,5 +1,6 @@
 package dao;
 
+import dao.model.Address;
 import dao.model.Person;
 
 import java.sql.*;
@@ -48,6 +49,18 @@ public class PersonDaoJdbcImpl implements PersonDao {
         String query = "select * from person";
         createConnection();
         List<Person> persons = getPersonsFromResultSet(statement.executeQuery(query));
+        for (Person p: persons) {
+            String addressQuery = "select * from address where person_id = " + p.getPersonId();
+            ResultSet resultSet = statement.executeQuery(addressQuery);
+            while (resultSet.next()) {
+                Address a = new Address();
+                a.setAddressId(resultSet.getInt("id"));
+                a.setCity(resultSet.getString("city"));
+                a.setStreet(resultSet.getString("street"));
+                a.setPostCode(resultSet.getString("post_code"));
+                p.addAddress(a);
+            }
+        }
         closeConnection();
         return persons;
     }
