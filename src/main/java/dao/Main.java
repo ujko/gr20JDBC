@@ -1,5 +1,8 @@
 package dao;
 
+import dao.model.Address;
+import dao.model.Person;
+
 import java.sql.SQLException;
 
 public class Main {
@@ -33,7 +36,21 @@ public class Main {
 //        dao.deletePerson(3);
 
         PersonDao dao = new PersonDaoJdbcImpl();
-        System.out.println(dao.getAllPersons().get(0));
-
+//        System.out.println(dao.getAllPersons().get(0));
+//        System.out.println(dao.getPersonsByFirstName("Jan"));
+        Person p = new Person("Agata", "Kowalska", 34);
+        Address address1 = new Address();
+        address1.setAddressId(4);
+        address1.setCity("Poznan");
+        address1.setStreet("Gajowa");
+        address1.setPostCode("33333");
+        p.addAddress(address1);
+        Address address2 = new Address();
+        address2.setAddressId(5);
+        address2.setCity("Wroclaw");
+        address2.setStreet("Poznanska");
+        address2.setPostCode("60-333");
+        p.addAddress(address2);
+        dao.addPerson(p);
     }
 }

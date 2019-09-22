@@ -47,10 +47,21 @@ public class PersonDaoJdbcImpl implements PersonDao {
     @Override
     public List<Person> getAllPersons() throws SQLException {
         String query = "select * from person";
+        return pobierzListe(query);
+    }
+
+    @Override
+    public List<Person> getPersonsByFirstName(String firstName) throws SQLException {
+        String query = "select * from person where first_name = '" + firstName + "'";
+        return pobierzListe(query);
+    }
+
+    private List<Person> pobierzListe(String query) throws SQLException {
         createConnection();
         List<Person> persons = getPersonsFromResultSet(statement.executeQuery(query));
         for (Person p: persons) {
-            String addressQuery = "select * from address where person_id = " + p.getPersonId();
+            String addressQuery = "select * from address where person_id = "
+                    + p.getPersonId() + " and deleted=0";
             ResultSet resultSet = statement.executeQuery(addressQuery);
             while (resultSet.next()) {
                 Address a = new Address();
@@ -65,23 +76,23 @@ public class PersonDaoJdbcImpl implements PersonDao {
         return persons;
     }
 
-    @Override
-    public List<Person> getPersonsByFirstName(String firstName) throws SQLException {
-        try {
-            connection = DriverManager.getConnection(DB_CONNECT, "root", "example");
-        } catch (SQLException e) {
-            System.exit(1);
-        }
-        String query = "select * from person where first_name = ?";
-        PreparedStatement preparedStatement = connection.prepareStatement(query);
-        preparedStatement.setString(1, firstName);
-        ResultSet resultSet = preparedStatement.executeQuery();
-        List<Person> personList = getPersonsFromResultSet(resultSet);
-        resultSet.close();
-        preparedStatement.close();
-        connection.close();
-        return personList;
-    }
+//    @Override
+//    public List<Person> getPersonsByFirstName(String firstName) throws SQLException {
+//        try {
+//            connection = DriverManager.getConnection(DB_CONNECT, "root", "example");
+//        } catch (SQLException e) {
+//            System.exit(1);
+//        }
+//        String query = "select * from person where first_name = ?";
+//        PreparedStatement preparedStatement = connection.prepareStatement(query);
+//        preparedStatement.setString(1, firstName);
+//        ResultSet resultSet = preparedStatement.executeQuery();
+//        List<Person> personList = getPersonsFromResultSet(resultSet);
+//        resultSet.close();
+//        preparedStatement.close();
+//        connection.close();
+//        return personList;
+//    }
 
     private List<Person> getPersonsFromResultSet(ResultSet resultSet) throws SQLException {
         List<Person> result = new ArrayList<>();
@@ -98,25 +109,14 @@ public class PersonDaoJdbcImpl implements PersonDao {
 
     @Override
     public List<Person> getPersonsByLastName(String lastName) throws SQLException {
-        createConnection();
         String query = "select * from person where last_name='" + lastName +"'";
-        System.out.println(query);
-        ResultSet resultSet = statement.executeQuery(query);
-        List<Person> personsFromResultSet = getPersonsFromResultSet(resultSet);
-        closeConnection();
-        return personsFromResultSet;
+        return pobierzListe(query);
     }
 
     @Override
     public Person getPersonById(int personId) throws SQLException {
         String query = "select * from person where id = " + personId;
-        createConnection();
-        List<Person> personList = getPersonsFromResultSet(statement.executeQuery(query));
-        closeConnection();
-        if(personList.isEmpty()){
-            throw new NoPersonIdException("brak id w bazie danych");
-        }
-        return personList.get(0);
+        return pobierzListe(query).get(0);
     }
 
     @Override
@@ -127,10 +127,7 @@ public class PersonDaoJdbcImpl implements PersonDao {
             minAge -= maxAge;
         }
         String query = String.format("select * from person where age between %d and %d", minAge, maxAge);
-        createConnection();
-        List<Person> personList = getPersonsFromResultSet(statement.executeQuery(query));
-        closeConnection();
-        return personList;
+        return pobierzListe(query);
     }
 
     @Override
@@ -139,6 +136,12 @@ public class PersonDaoJdbcImpl implements PersonDao {
         String query = String.format("insert into person(id, first_name, last_name, age) values(%d, '%s', '%s', %d)"
                 ,person.getPersonId(), person.getFirstName(), person.getLastName(), person.getAge());
         createConnection();
+        for (Address a : person.getAddresses()) {
+            String q = String.format("insert into address values(%d, %d, '%s','%s','%s',0)",
+            a.getAddressId(), person.getPersonId(), a.getCity(), a.getStreet(), a.getPostCode());
+            statement.addBatch(q);
+        }
+        statement.executeBatch();
         statement.executeUpdate(query);
         closeConnection();
     }
