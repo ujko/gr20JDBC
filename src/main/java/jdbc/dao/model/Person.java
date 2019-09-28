@@ -1,4 +1,4 @@
-package dao.model;
+package jdbc.dao.model;
 
 import java.util.ArrayList;
 import java.util.List;

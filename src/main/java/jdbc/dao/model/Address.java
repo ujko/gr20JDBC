@@ -1,4 +1,4 @@
-package dao.model;
+package jdbc.dao.model;
 
 public class Address {
     private int addressId;

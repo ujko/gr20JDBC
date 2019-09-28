@@ -1,43 +1,43 @@
-package dao;
+package jdbc.dao;
 
-import dao.model.Address;
-import dao.model.Person;
+import jdbc.dao.model.Address;
+import jdbc.dao.model.Person;
 
 import java.sql.SQLException;
 
 public class Main {
     public static void main(String[] args) throws SQLException {
 //        long start = System.currentTimeMillis();
-//        PersonDao dao = new PersonDaoMemImpl();
-//        System.out.println(dao.getPersonsBetweenAge(12,35));
-//        System.out.println(dao.getPersonsByLastName("Nowak"));
-//        System.out.println(dao.getPersonsByLastName("Anna"));
-//        System.out.println(dao.getPersonsByLastName("Jan"));
+//        PersonDao jdbc.dao = new PersonDaoMemImpl();
+//        System.out.println(jdbc.dao.getPersonsBetweenAge(12,35));
+//        System.out.println(jdbc.dao.getPersonsByLastName("Nowak"));
+//        System.out.println(jdbc.dao.getPersonsByLastName("Anna"));
+//        System.out.println(jdbc.dao.getPersonsByLastName("Jan"));
 
 //        try {
-//            System.out.println(dao.getPersonById(6));
+//            System.out.println(jdbc.dao.getPersonById(6));
 //        } catch (NoPersonIdException e) {
 //            System.out.println("Brak w bazie danych");
 //        }
-//        List<Person> personList = dao.getPersonsBetweenAge(12,12);
+//        List<Person> personList = jdbc.dao.getPersonsBetweenAge(12,12);
 //        personList.forEach(System.out::println);
 //        Person p = new Person();
 //        p.setFirstName("Pawel");
 //        p.setLastName("Dymsza");
-//        dao.updatePerson(1, p);
-//        dao.createTable();
-//        dao.addPerson(new Person("Jan", "Nowak", 6));
-//        dao.addPerson(new Person("Anna", "Dymna", 66));
-//        dao.addPerson(new Person("Andrzej", "Nowak", 23));
-//        List<Person> personList = dao.getPersonsByLastName("dymna");
+//        jdbc.dao.updatePerson(1, p);
+//        jdbc.dao.createTable();
+//        jdbc.dao.addPerson(new Person("Jan", "Nowak", 6));
+//        jdbc.dao.addPerson(new Person("Anna", "Dymna", 66));
+//        jdbc.dao.addPerson(new Person("Andrzej", "Nowak", 23));
+//        List<Person> personList = jdbc.dao.getPersonsByLastName("dymna");
 //        personList.forEach(System.out::println);
 //        long stop = System.currentTimeMillis();
 //        System.out.println("Program wykonał się w " + (stop - start) + " ms");
-//        dao.deletePerson(3);
+//        jdbc.dao.deletePerson(3);
 
         PersonDao dao = new PersonDaoJdbcImpl();
-//        System.out.println(dao.getAllPersons().get(0));
-//        System.out.println(dao.getPersonsByFirstName("Jan"));
+//        System.out.println(jdbc.dao.getAllPersons().get(0));
+//        System.out.println(jdbc.dao.getPersonsByFirstName("Jan"));
         Person p = new Person("Agata", "Kowalska", 34);
         Address address1 = new Address();
         address1.setAddressId(4);

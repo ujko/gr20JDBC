@@ -1,4 +1,4 @@
-package arrays;
+package jdbc.arrays;
 
 import java.sql.*;
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package arrays;
+package jdbc.arrays;
 
 public class Test {
     private int id;

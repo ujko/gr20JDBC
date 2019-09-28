@@ -47,8 +47,8 @@ $ git commit -m "Initial commit"
  4 files changed, 76 insertions(+)
  create mode 100644 .gitignore
  create mode 100644 pom.xml
- create mode 100644 src/main/java/arrays.MainTest.java
- create mode 100644 src/main/java/dao/PersonDao.java
+ create mode 100644 src/main/java/jdbc.arrays.MainTest.java
+ create mode 100644 src/main/java/jdbc.dao/PersonDao.java
 
 Pawel@dellprecision MINGW64 /c/ujo/workspace/gr20jdbc (master)
 $ git push origin master
