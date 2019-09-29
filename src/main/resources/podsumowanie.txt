@@ -1,0 +1,36 @@
+//klasa encji
+@Entity // konieczne przed nazwą klasy
+@Table(name = "tabela") //
+class KLasa{
+	@Id  //konieczne
+	@GeneratedValue
+	@Column(name ="nazwa_kolumny")
+	private int id;
+
+
+
+	musi mieć setery getery i konstruktor bezparametrowy
+}
+
+
+//jedna klasa dwie tabele
+@SecondaryTable(name = "secondary")
+
+@Column(table = "secondary")
+private String name;
+
+//dwie klasy jedna tabela
+@Embeddable
+class podklasa
+
+class nadklasa
+
+@Embedded
+private podklasa;
+
+
+//one to one
+
+
+@OneToOne
+
